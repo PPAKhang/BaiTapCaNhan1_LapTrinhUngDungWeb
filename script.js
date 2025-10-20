@@ -59,4 +59,37 @@ $(document).ready(function() {
             }
         });
     }
+
+    //đồng bộ footer và nav
+
+    const $menuItems = $('.menu-item');
+    const $activeStatus = $('#active-status');
+
+  
+    function setActiveMenu(menuId, menuText) {
+  
+        $menuItems.removeClass('active');
+        $menuItems.filter(`[data-menu-id="${menuId}"]`).addClass('active');
+
+        if ($activeStatus.length) {
+            $activeStatus.text(`Đang xem: ${menuText}`);
+        }
+    }
+
+    $menuItems.on('click', function(e) {
+        e.preventDefault(); 
+        
+        const $clickedItem = $(this);
+        const menuId = $clickedItem.data('menu-id'); 
+        const menuText = $clickedItem.text();       
+        
+        setActiveMenu(menuId, menuText);
+    });
+
+    const initialActiveItem = $('.menu-item.active').first();
+    if (initialActiveItem.length) {
+        setActiveMenu(initialActiveItem.data('menu-id'), initialActiveItem.text());
+    }
+
+
 });
