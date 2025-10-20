@@ -14,7 +14,7 @@ body, html {
     flex-direction: column;
     min-height: 100vh; 
 }
-
+<!---->
 
 header {
     height: 66px; 
@@ -38,6 +38,7 @@ header h1 {
     top: -9px;
 }
 
+<!---->
 #main-nav {
     text-align: center;
     background-color: transparent; 
@@ -84,7 +85,7 @@ header h1 {
     white-space: pre-wrap; 
     min-height: 150px;
 }
-
+<!---->
 footer {
     height: 33px; 
     background-color: #eee;
@@ -135,7 +136,7 @@ footer li a.active {
     color: #31B868;
     font-weight: bold;
 }
-
+<!---->
 #sidebar {
     width: 256px; 
     flex-shrink: 0;
@@ -173,3 +174,64 @@ footer li a.active {
     border-top: 1px solid #eee;
     display: block; 
 }
+<!---->
+#main-content {
+    display: flex;
+    flex: 1; 
+    padding-bottom: 33px; 
+}
+
+#main-area {
+    flex-grow: 1; 
+    display: flex;
+    flex-direction: column; 
+    padding: 10px;
+    gap: 10px; 
+}
+
+.main-frame {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+<!---->
+#process-text-frame {
+    flex: 1; 
+}
+#drag-drop-frame {
+    flex: 1; 
+}
+
+#drag-drop-frame .title-bar {
+    justify-content: center;
+    display: flex;
+    align-items: center;      
+    gap: 10px;               
+    padding: 10px 0; 
+}
+
+#drag-drop-frame .title-bar button {
+    margin-right: 10px;
+    padding: 5px 10px;
+    background-color: white;
+    color: #3176B8;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.frame-content {
+    flex-grow: 1;
+    padding: 10px;
+    overflow-y: auto;
+}
+
+#text-area-content {
+    white-space: pre-wrap; 
+    min-height: 150px; 
+}
+
+<!---->
