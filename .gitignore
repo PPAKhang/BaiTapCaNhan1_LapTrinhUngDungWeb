@@ -1,0 +1,14 @@
+
+.git/
+
+gitlog.txt
+
+*.zip
+*.rar
+
+.DS_Store
+
+Thumbs.db
+
+.vscode/
+*.bak
