@@ -105,19 +105,30 @@
                 <div id="process-text-frame" class="main-frame">
                     <div class="title-bar process-title-bar">
                         <span class="frame-title">Process Text</span>
-                        <input type="text" id="search" placeholder="a[a-z]">
-                        <button id="btn-highlight" title="Highlight">Highlight</button>
-                        <button id="btn-delete" title="Delete">Delete</button>
-                        <button id="btn-reset" title="Reset">Reset</button>
-                        <button id="btn-sample-text" title="Sample Text">Sample Text</button>
                         
-                        <input type="color" id="text-color" value="#000000" title="Màu chữ">
-
-                        <button id="btn-bold" title="Bold">B</button>
-                        <button id="btn-italic" title="Italic">I</button>
-                        <button id="btn-underline" title="Underline">U</button>
-                        
-                        <button id="btn-setting" title="Setting"><i class="fas fa-cog"></i></button>
+                        <div class="process-center-controls">
+                            <input type="text" id="search" placeholder="a[a-z]">
+                            <button id="btn-highlight" title="Highlight">Highlight</button>
+                            <button id="btn-delete" title="Delete">Delete</button>
+                            <button id="btn-reset" title="Reset">Reset</button>
+                        </div>
+                    
+                        <div class="process-right-controls">
+                            <button id="btn-sample-text" title="Sample Text">Sample Text</button>
+                            <input type="color" id="text-color" value="#000000" title="Màu chữ">
+                    
+                            <div class="setting-dropdown-wrapper">
+                                <button id="btn-setting" title="Setting" type="button">
+                                    <i class="fas fa-cog"></i>
+                                </button>
+                    
+                                <div id="text-format-controls" class="hidden">
+                                    <button id="bold-btn" title="Bold">B</button> 
+                                    <button id="italic-btn" title="I">I</button>
+                                    <button id="underline-btn" title="Underline">U</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     
                     <div id="text-area-content" contenteditable="true" class="frame-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.

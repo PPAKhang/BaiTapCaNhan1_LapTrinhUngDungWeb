@@ -319,22 +319,6 @@ footer li a.active {
     overflow: hidden;
 }
 
-<!---->
-
-.title-bar {
-    background-color: #3176B8;
-    color: white;
-    padding: 8px 12px;
-    display: flex;
-    align-items: center;
-    flex-shrink: 0; 
-    gap: 5px;
-}
-
-.title-bar .frame-title {
-    font-weight: bold;
-    margin-right: 10px;
-}
 #process-text-frame {
     flex: 1; 
 }
@@ -343,37 +327,67 @@ footer li a.active {
 }
 
 <!---->
+
 #process-text-frame .title-bar {
-    background-color: #3176B8;      
-    padding: 10px 15px;          
-    display: flex;               
-    align-items: center;         
+    background-color: #3176B8;
+    color: white; 
+    
+    padding: 12px 15px; 
+    
+    display: flex;
+    align-items: center; 
     justify-content: space-between; 
-    border-top-right-radius: 5px;
+    
+    gap: 15px; 
+    
+    position: relative; 
+    flex-shrink: 0; 
+    border-top-right-radius: 5px; 
 }
-#process-text-frame .title-bar button {
-    padding: 8px;
+
+#process-text-frame .title-bar .frame-title {
+    font-weight: bold;
+    font-size: 1.1em; 
+    flex-shrink: 0; 
+    margin-right: 0;
+}
+
+.process-center-controls {
+    display: flex;
+    align-items: center;
+    flex-grow: 1; 
+    justify-content: center; 
+    gap: 8px; 
+}
+
+.process-right-controls {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0; 
+    gap: 8px;
+}
+
+.setting-dropdown-wrapper {
+    position: relative;
+    flex-shrink: 0;
+}
+
+
+#process-text-frame .title-bar button,
+#process-text-frame .title-bar input[type="text"] {
+    
+    padding: 6px 10px; 
     border: none;
     border-radius: 3px;
-    border-top-left-radius: 5px;
+    
     background-color: rgba(255, 255, 255, 0.2);
     color: white;
     cursor: pointer;
     transition: background-color 0.2s;
-    font-weight: bold;
-}
-#process-text-frame .title-bar input[type="text"] {
-    padding: 8px;
-    border: none;
-    border-radius: 3px;
-    background-color: rgba(255, 255, 255, 0.2);
-    color: white;
+    font-weight: bold; 
 }
 
 #process-text-frame .title-bar button {
-    cursor: pointer;
-    transition: background-color 0.2s;
-    font-weight: bold;
 }
 
 #process-text-frame .title-bar button:hover {
@@ -381,15 +395,13 @@ footer li a.active {
 }
 
 #process-text-frame #text-area-content {
-    text-align: left;    
-    font-size: 1.5em;     
-    line-height: 1.6;     
+    text-align: left;
+    font-size: 1.5em;
+    line-height: 1.6;
     color: #222;
-    text-indent: 0;    
-    margin: 0;                 
+    text-indent: 0;
+    margin: 0;
 }
-
-
 
 <!---->
 #drag-drop-frame .title-bar {
