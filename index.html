@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bài tập 1 - 20120303</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
     <div id="wrapper">
@@ -93,23 +93,33 @@ Nec falli ceteros democritum cu, eros percipit patrioque ne vim. Ea vix aliquid 
                         
                         <div class="dragdrop-controls">
                             <button id="btn-add-new">Add new</button>
-                            <select id="drop-list">
-                                <option value="item-a">Loại Item 1</option>
-                                <option value="item-b">Loại Item 2</option>
-                                <option value="item-c">Loại Item 3</option>
-                                <option value="item-a">Loại Item 4</option>
-                                <option value="item-b">Loại Item 5</option>
-                                <option value="item-c">Loại Item 6</option>
-                                <option value="item-a">Loại Item 7</option>
-                                <option value="item-b">Loại Item 8</option>
-                                <option value="item-c">Loại Item 9</option>
-                                <option value="item-a">Loại Item 10</option>
-                                <option value="item-b">Loại Item 11</option>
-                                <option value="item-c">Loại Item 12</option>
-                            </select>
+                            
+                            <div id="custom-dropdown" class="dropdown-wrapper">
+                                
+                                <button id="dropdown-display">
+                                    <img src="images/Ti.png" id="selected-image" alt="Selected Item">
+                                </button> 
+                                
+                                <div id="thumbnail-palette" class="dropdown-content hidden">
+                                    
+                                    <img src="images/Ti.png" class="drag-item-thumb" data-item-type="item-1" alt="Item 1">
+                                    <img src="images/Suu.png" class="drag-item-thumb" data-item-type="item-2" alt="Item 2">
+                                    <img src="images/Dan.png" class="drag-item-thumb" data-item-type="item-3" alt="Item 3">
+                                    <img src="images/Meo.png" class="drag-item-thumb" data-item-type="item-4" alt="Item 4">
+                                    <img src="images/Thin.png" class="drag-item-thumb" data-item-type="item-5" alt="Item 5">
+                                    <img src="images/Ty.png" class="drag-item-thumb" data-item-type="item-6" alt="Item 6">
+                                    <img src="images/Ngo.png" class="drag-item-thumb" data-item-type="item-7" alt="Item 7">
+                                    <img src="images/Mui.png" class="drag-item-thumb" data-item-type="item-8" alt="Item 8">
+                                    <img src="images/Than.png" class="drag-item-thumb" data-item-type="item-9" alt="Item 9">
+                                    <img src="images/Dau.png" class="drag-item-thumb" data-item-type="item-10" alt="Item 10">
+                                    <img src="images/Tuat.png" class="drag-item-thumb" data-item-type="item-11" alt="Item 11">
+                                    <img src="images/Hoi.png" class="drag-item-thumb" data-item-type="item-12" alt="Item 12">
+                                    
+                                </div>
+                            </div>
                         </div>
+                        
                     </div>
-                
                     <div id="image-area" class="drag-drop-container frame-content"></div>
                 </div>
                 

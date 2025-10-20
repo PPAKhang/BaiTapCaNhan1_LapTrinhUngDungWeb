@@ -93,7 +93,7 @@ footer {
     display: flex;
     justify-content: center; 
     align-items: center;
-    position: fixed; 
+    position: static; 
     bottom: 0;
     left: 0;
     right: 0;
@@ -253,47 +253,13 @@ footer li a.active {
 
 <!---->
 #drag-drop-frame .title-bar {
-
-    display: flex;
-    align-items: center;      
-    gap: 10px;               
-    padding: 10px 0; 
-}
-
-#drag-drop-frame .title-bar button {
-    margin-right: 10px;
-    padding: 5px 10px;
-    background-color: white;
-    color: #3176B8;
-    border: none;
-    border-radius: 3px;
-    cursor: pointer;
-}
-
-.frame-content {
-    flex-grow: 1;
-    padding: 10px;
-    overflow-y: auto;
-}
-
-#text-area-content {
-    white-space: pre-wrap; 
-    min-height: 150px; 
-}
-
-#drag-drop-frame .title-bar {
     position: relative;
     display: flex;
     align-items: center;
     padding: 10px 12px;
     background-color: #3176B8;
     color: white;
-}
 
-#drag-drop-frame .frame-title {
-    font-weight: bold;
-    margin-left: 8px;
-    text-align: left;
 }
 
 .dragdrop-controls {
@@ -303,18 +269,96 @@ footer li a.active {
     display: flex;
     align-items: center;
     gap: 10px;
+    max-width: 80%; 
 }
 
-.dragdrop-controls button,
-.dragdrop-controls select {
+
+.dropdown-wrapper {
+    position: relative; 
+    display: inline-block;
+}
+
+
+#dropdown-display {
+    padding: 2px; 
     background-color: white;
-    color: #3176B8;
     border: none;
     border-radius: 3px;
-    padding: 5px 10px;
     cursor: pointer;
+    line-height: 0; 
+    
 }
 
-.dragdrop-controls button:hover {
+#dropdown-display img {
+
+    width: 35px;
+    height: 35px;
+    object-fit: cover;
+    display: block;
+    border-radius: 3px;
+}
+
+#thumbnail-palette {
+    
+    position: absolute;
+    top: 100%; 
+    left: 0;
+    z-index: 20;
+    
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 5px;
+    display: flex; 
+    gap: 5px;
+    flex-wrap: wrap; 
+    width: 200px; 
+}
+
+.drag-item-thumb {
+    width: 40px; 
+    height: 40px;
+    object-fit: cover; 
+    border: 2px solid transparent;
+    border-radius: 4px;
+    cursor: pointer; 
+    transition: border 0.2s;
+}
+
+.drag-item-thumb:hover,
+.drag-item-thumb.selected {
+    border-color: #31B868; 
+}
+
+.hidden {
+    display: none !important;}
+
+#image-area {
+    position: relative;             
     background-color: #f0f0f0;
+    min-height: 200px;
+    border: 2px dashed #aaa;
+    border-radius: 5px;
+    overflow: hidden;                
+}
+
+.drag-item {
+    position: absolute;
+    width: 64px;                 
+    height: 64px;
+    object-fit: contain;
+    cursor: grab;
+    user-select: none;
+    transition: transform 0.15s ease;
+}
+
+.drag-item:active {
+    cursor: grabbing;
+    transform: scale(1.05);
+}
+
+.drag-item.dragging {
+    opacity: 0.7;
+    transform: scale(1.1);
 }
