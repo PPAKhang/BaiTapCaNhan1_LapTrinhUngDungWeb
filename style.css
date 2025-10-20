@@ -196,6 +196,30 @@ footer li a.active {
     border-top: 1px solid #eee;
     display: block; 
 }
+
+.news-content.closed {
+    max-height: 0; 
+    padding-top: 0;
+    padding-bottom: 0;
+    opacity: 0;
+    transition: max-height 0.3s ease-out, opacity 0.3s ease-out, padding 0.3s ease-out;
+}
+
+.news-content.open {
+    max-height: 500px; 
+    opacity: 1;
+    padding: 10px 12px;
+    transition: max-height 0.3s ease-in, opacity 0.3s ease-in, padding 0.3s ease-in;
+}
+
+.news-card .toggle-icon i {
+    transition: transform 0.3s ease; 
+}
+
+.news-card.closed .toggle-icon i {
+    transform: rotate(180deg); 
+}
+
 <!---->
 #main-content {
     display: flex;

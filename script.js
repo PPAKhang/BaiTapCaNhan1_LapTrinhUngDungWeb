@@ -91,5 +91,26 @@ $(document).ready(function() {
         setActiveMenu(initialActiveItem.data('menu-id'), initialActiveItem.text());
     }
 
+    //đóng mở new của side bar
+    $('.news-content').each(function() {
+        if (!$(this).hasClass('open')) {
+            $(this).addClass('closed');
+            $(this).closest('.news-card').addClass('closed');
+        }
+    });
+
+    $('.news-header').on('click', function() {
+
+        const $newsCard = $(this).closest('.news-card');
+        const $newsContent = $newsCard.find('.news-content');
+
+        if ($newsCard.hasClass('closed')) {
+            $newsContent.removeClass('closed').addClass('open');
+            $newsCard.removeClass('closed');
+        } else {
+            $newsContent.removeClass('open').addClass('closed');
+            $newsCard.addClass('closed');
+        }
+    });
 
 });
