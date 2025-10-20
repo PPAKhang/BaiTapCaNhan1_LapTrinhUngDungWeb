@@ -299,21 +299,20 @@ footer li a.active {
 }
 
 #thumbnail-palette {
-    
     position: absolute;
-    top: 100%; 
+    top: 100%;
     left: 0;
-    z-index: 20;
-    
-    background-color: white;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    padding: 5px;
-    display: flex; 
+    z-index: 9999;              /* rất cao để nằm trên cùng */
+    pointer-events: auto;       /* cho phép nhận sự kiện chuột */
+    display: flex;
     gap: 5px;
-    flex-wrap: wrap; 
-    width: 200px; 
+    flex-wrap: wrap;
+    width: 220px;
+    padding: 6px;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.18);
 }
 
 .drag-item-thumb {
