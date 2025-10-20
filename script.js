@@ -14,7 +14,6 @@ $(document).ready(function() {
         }
     });
 
-
     $('.drag-item-thumb').on('click', function(e) {
         e.stopPropagation(); 
         const imgSrc = $(this).attr('src');
@@ -34,30 +33,26 @@ $(document).ready(function() {
         let offsetX, offsetY;
 
         $img.on('mousedown', function(e) {
-            // Chỉ bắt sự kiện chuột trái
             if (e.button !== 0) return; 
 
             isDragging = true;
             offsetX = e.offsetX;
             offsetY = e.offsetY;
             
-            // Sử dụng position: absolute và z-index để cho phép kéo
+  
             $(this).css({
                 position: 'absolute',
                 zIndex: 9999,
                 cursor: 'grabbing'
             }).addClass('dragging');
             
-            // Ngăn chặn việc chọn văn bản trong quá trình kéo
             e.preventDefault(); 
         });
 
-        // Xử lý kéo
         $(document).on('mousemove', function(e) {
             if (isDragging) {
                 const containerOffset = $('#image-area').offset();
                 
-                // Tính toán vị trí mới cho phần tử kéo
                 const x = e.pageX - containerOffset.left - offsetX;
                 const y = e.pageY - containerOffset.top - offsetY;
 
@@ -68,7 +63,6 @@ $(document).ready(function() {
             }
         });
 
-        // Xử lý thả
         $(document).on('mouseup', function() {
             if (isDragging) {
                 isDragging = false;
@@ -81,8 +75,6 @@ $(document).ready(function() {
             }
         });
     }
-
-    //đồng bộ footer và nav
 
     const $menuItems = $('.menu-item');
     const $activeStatus = $('#active-status');
@@ -278,6 +270,31 @@ $(document).ready(function() {
             $newsContent.removeClass('open').addClass('closed');
             $newsCard.addClass('closed');
         }
+    });
+
+
+    function addNewImageFromThumb() {
+        const defaultThumb = $('#thumbnail-palette .drag-item-thumb').first();
+        if (defaultThumb.length === 0) {
+            console.error("Lỗi: Không tìm thấy ảnh thumbnail mặc định để thêm.");
+            return;
+        }
+
+        const imgSrc = defaultThumb.attr('src');
+        const newImg = $('<img src="' + imgSrc + '" class="drag-item">');
+        
+        $('#image-area').append(newImg);
+
+        newImg.css({
+            position: 'relative',
+        });
+
+        enableDrag(newImg);
+    }
+
+    $('#btn-add-new').on('click', function(e) {
+        e.preventDefault(); 
+        addNewImageFromThumb();
     });
 
 });

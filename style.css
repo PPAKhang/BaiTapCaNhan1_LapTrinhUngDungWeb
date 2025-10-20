@@ -404,8 +404,8 @@ footer li a.active {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 6px;
-    padding: 4px 8px;
+    gap: 10px;
+    padding: 0px 8px;
     background-color: #fff;
     border: 1px solid #ccc;
     border-radius: 6px;
@@ -438,19 +438,20 @@ footer li a.active {
     transition: transform 0.2s;
 }
 
-/* Khi dropdown mở, cho mũi tên quay lên */
 #dropdown-display.active .arrow {
     transform: rotate(180deg);
 }
 
-/* --- Palette --- */
 #thumbnail-palette {
     position: absolute;
     top: 110%;
     left: 0;
     z-index: 9999;
-    display: grid;
-    grid-template-columns: repeat(6, 36px);
+
+    display: flex;
+    flex-direction: column; 
+    align-items: flex-start;
+
     gap: 6px;
     width: max-content;
     padding: 8px;
@@ -479,3 +480,4 @@ footer li a.active {
 .hidden {
     display: none !important;
 }
+
