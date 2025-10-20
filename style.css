@@ -37,7 +37,7 @@ header {
     background: linear-gradient(to top, #3176B8, #4592D6);
     border-radius: 0 0 10px 10px; 
         
-    border-bottom: 1px solid #fff9f9;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
 }
     
 header h1 {
@@ -64,10 +64,11 @@ header h1 {
     background-color: transparent; 
     position: relative;
     top: -22px; 
-    
+    font-family: 'Times New Roman', serif;
+    font-style: normal;
     z-index: 10;
     width: 100%; 
-    font-size: 0.7em
+    font-size: 0.8em
 }
 
 #main-nav ul {
@@ -75,14 +76,14 @@ header h1 {
     padding: 0;
     margin: 0 auto;
     display: inline-flex;
-    background-color: #7794f1;
+    background-color: #9cb1f5;
     border-radius: 5px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 #main-nav li a {
     display: block;
-    padding: 10px 15px;
+    padding: 10px 35px;
     text-decoration: none;
     color: #333;
     font-weight: bold;
