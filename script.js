@@ -113,4 +113,84 @@ $(document).ready(function() {
         }
     });
 
+    //kéo thả cho news của sidebar thay đổi vị trí
+    let isDragging = false;
+    let $draggedItem = null;
+    let originalY;
+    let offset;
+    let $sidebar = $('#sidebar');
+    
+
+    $sidebar.on('mousedown', '.news-card', function(e) {
+        if (e.button !== 0) return; 
+
+        isDragging = true;
+        $draggedItem = $(this);
+        
+        originalY = $draggedItem.offset().top;
+        offset = e.clientY - originalY;
+        
+        $draggedItem.addClass('dragging-placeholder').before($draggedItem.clone().addClass('dragging-clone'));
+        
+        $draggedItem.css({
+            position: 'absolute',
+            zIndex: 1000,
+            width: $draggedItem.outerWidth() + 'px',
+            cursor: 'grabbing',
+            top: e.clientY - offset + 'px',
+            left: $draggedItem.offset().left + 'px',
+            opacity: 0.8
+        });
+
+        e.preventDefault(); 
+    });
+
+    $(document).on('mousemove', function(e) {
+        if (!isDragging) return;
+
+        $draggedItem.css('top', e.clientY - offset + 'px');
+        let draggedCenterY = e.clientY - offset + $draggedItem.outerHeight() / 2;
+        
+        $('.news-card:not(.dragging-placeholder)').each(function() {
+            let $current = $(this);
+            let currentTop = $current.offset().top;
+            let currentBottom = currentTop + $current.outerHeight();
+
+            if (draggedCenterY < currentTop + $current.outerHeight() / 2) {
+                if ($draggedItem.next().hasClass('dragging-placeholder')) {
+                    $draggedItem.next().after($current);
+                } else {
+
+                    $current.before($('.dragging-placeholder'));
+                }
+                return false; 
+            }
+
+            if (draggedCenterY > currentBottom - $current.outerHeight() / 2) {
+                 if ($draggedItem.prev().hasClass('dragging-placeholder')) {
+                    
+                    $draggedItem.prev().before($current);
+                 } else {
+                    $current.after($('.dragging-placeholder'));
+                 }
+                return false;
+            }
+        });
+    });
+
+    $(document).on('mouseup', function() {
+        if (!isDragging) return;
+
+        isDragging = false;
+        
+        // Đưa phần tử kéo vào vị trí placeholder
+        $draggedItem.removeClass('dragging-clone').removeAttr('style');
+        $('.dragging-placeholder').replaceWith($draggedItem);
+        
+        // Dọn dẹp
+        $draggedItem.removeClass('dragging-placeholder');
+        $draggedItem.css({ position: '', zIndex: '', width: '', cursor: '', top: '', left: '', opacity: '' });
+        $draggedItem = null;
+    });
+
 });
