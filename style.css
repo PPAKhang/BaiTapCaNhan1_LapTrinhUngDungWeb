@@ -169,6 +169,7 @@ footer li a.active {
     box-sizing: border-box;
     cursor: grab;
     color: rgb(19, 3, 3); 
+    position: relative;
 }
 
 .news-card {
@@ -264,6 +265,17 @@ footer li a.active {
     padding: 10px 12px;
     transition: max-height 0.3s ease-in, opacity 0.3s ease-in, padding 0.3s ease-in, border-top 0.3s ease-in;
     border-top: 1px solid #fdfcf8; 
+}
+
+.news-card.dragging-clone {
+    cursor: grabbing !important;
+    position: absolute;
+}
+
+.news-card.dragging-placeholder {
+
+    visibility: hidden; 
+    opacity: 0; 
 }
 
 <!---->

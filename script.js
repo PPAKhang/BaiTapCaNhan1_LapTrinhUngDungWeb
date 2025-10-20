@@ -114,83 +114,87 @@ $(document).ready(function() {
     });
 
     //kéo thả cho news của sidebar thay đổi vị trí
-    let isDragging = false;
-    let $draggedItem = null;
-    let originalY;
-    let offset;
-    let $sidebar = $('#sidebar');
+    let isDraggingSidebar = false;
+let $draggedNewsItem = null;
+let offsetNewsY;
+let $sidebar = $('#sidebar');
+
+$sidebar.on('mousedown', '.news-card', function(e) {
+
+    if (e.button !== 0 || $(e.target).closest('.news-header').length === 0) return;
+    
+    isDraggingSidebar = true;
+    $draggedNewsItem = $(this);
     
 
-    $sidebar.on('mousedown', '.news-card', function(e) {
-        if (e.button !== 0) return; 
+    let itemOffset = $draggedNewsItem.offset();
+    offsetNewsY = e.clientY - itemOffset.top;
+    
 
-        isDragging = true;
-        $draggedItem = $(this);
-        
-        originalY = $draggedItem.offset().top;
-        offset = e.clientY - originalY;
-        
-        $draggedItem.addClass('dragging-placeholder').before($draggedItem.clone().addClass('dragging-clone'));
-        
-        $draggedItem.css({
-            position: 'absolute',
-            zIndex: 1000,
-            width: $draggedItem.outerWidth() + 'px',
-            cursor: 'grabbing',
-            top: e.clientY - offset + 'px',
-            left: $draggedItem.offset().left + 'px',
-            opacity: 0.8
-        });
-
-        e.preventDefault(); 
+    let $clone = $draggedNewsItem.clone().addClass('dragging-clone');
+    $draggedNewsItem.addClass('dragging-placeholder');
+    $draggedNewsItem.after($clone); 
+    
+    $clone.css({
+        position: 'absolute',
+        zIndex: 1000,
+        width: $draggedNewsItem.outerWidth() + 'px',
+        cursor: 'grabbing',
+        top: e.clientY - offsetNewsY + 'px',
+        left: itemOffset.left + 'px',
+        opacity: 0.8,
+        height: $draggedNewsItem.outerHeight() + 'px' 
     });
 
-    $(document).on('mousemove', function(e) {
-        if (!isDragging) return;
+    $clone.data('isDragging', true); 
 
-        $draggedItem.css('top', e.clientY - offset + 'px');
-        let draggedCenterY = e.clientY - offset + $draggedItem.outerHeight() / 2;
-        
-        $('.news-card:not(.dragging-placeholder)').each(function() {
-            let $current = $(this);
-            let currentTop = $current.offset().top;
-            let currentBottom = currentTop + $current.outerHeight();
+    e.preventDefault(); 
+});
 
-            if (draggedCenterY < currentTop + $current.outerHeight() / 2) {
-                if ($draggedItem.next().hasClass('dragging-placeholder')) {
-                    $draggedItem.next().after($current);
-                } else {
+$(document).on('mousemove', function(e) {
+    if (!isDraggingSidebar) return;
 
-                    $current.before($('.dragging-placeholder'));
-                }
-                return false; 
-            }
+    let $clone = $sidebar.find('.dragging-clone');
+    $clone.css('top', e.clientY - offsetNewsY + 'px');
 
-            if (draggedCenterY > currentBottom - $current.outerHeight() / 2) {
-                 if ($draggedItem.prev().hasClass('dragging-placeholder')) {
-                    
-                    $draggedItem.prev().before($current);
-                 } else {
-                    $current.after($('.dragging-placeholder'));
-                 }
-                return false;
-            }
-        });
+    let cloneCenterY = e.clientY - offsetNewsY + $clone.outerHeight() / 2;
+    
+    $sidebar.find('.news-card:not(.dragging-placeholder)').each(function() {
+        let $current = $(this);
+        let currentTop = $current.offset().top;
+        let currentHeight = $current.outerHeight();
+        let currentCenterY = currentTop + currentHeight / 2;
+
+        if (cloneCenterY < currentCenterY) {
+            $current.before($draggedNewsItem);
+            return false; 
+        } else if (cloneCenterY > currentCenterY) {
+            $current.after($draggedNewsItem);
+        }
     });
+});
 
-    $(document).on('mouseup', function() {
-        if (!isDragging) return;
+$(document).on('mouseup', function() {
+    if (!isDraggingSidebar) return;
 
-        isDragging = false;
-        
-        // Đưa phần tử kéo vào vị trí placeholder
-        $draggedItem.removeClass('dragging-clone').removeAttr('style');
-        $('.dragging-placeholder').replaceWith($draggedItem);
-        
-        // Dọn dẹp
-        $draggedItem.removeClass('dragging-placeholder');
-        $draggedItem.css({ position: '', zIndex: '', width: '', cursor: '', top: '', left: '', opacity: '' });
-        $draggedItem = null;
-    });
+    isDraggingSidebar = false;
+    
+    let $clone = $sidebar.find('.dragging-clone');
+    
+    $clone.before($draggedNewsItem.removeClass('dragging-placeholder'));
+    
+    $clone.remove();
+    $draggedNewsItem.removeAttr('style').removeClass('dragging-placeholder');
+    $draggedNewsItem = null;
+});
+
+
+$sidebar.on('click', '.news-card', function(e) {
+    let $clone = $sidebar.find('.dragging-clone');
+    if ($clone.length) {
+        e.stopImmediatePropagation();
+        return false;
+    }
+});
 
 });
