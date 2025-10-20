@@ -14,3 +14,55 @@ body, html {
     flex-direction: column;
     min-height: 100vh; 
 }
+
+
+header {
+    height: 66px; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 15px;
+    color: white;
+    
+    background: linear-gradient(to bottom, #3176B8, #4592D6 75%, transparent 75.1%);
+    border-bottom: 1px solid #ddd;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 1.7em;
+    font-family: 'Times New Roman', serif;
+    font-style: normal;
+    letter-spacing: 1px;
+    position: relative;
+    top: -9px;
+}
+
+#main-nav {
+    text-align: center;
+    background-color: transparent; 
+    position: relative;
+    top: -20px; 
+    z-index: 10;
+    width: 100%; 
+    font-size: 0.7em
+}
+
+#main-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 auto;
+    display: inline-flex;
+    background-color: #7794f1;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+#main-nav li a {
+    display: block;
+    padding: 10px 15px;
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+    transition: background-color 0.3s, color 0.3s;
+}
