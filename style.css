@@ -343,9 +343,27 @@ footer li a.active {
 }
 
 <!---->
-#process-text-frame .title-bar button, 
+#process-text-frame .title-bar {
+    background-color: #3176B8;      
+    padding: 10px 15px;          
+    display: flex;               
+    align-items: center;         
+    justify-content: space-between; 
+    border-top-right-radius: 5px;
+}
+#process-text-frame .title-bar button {
+    padding: 8px;
+    border: none;
+    border-radius: 3px;
+    border-top-left-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    font-weight: bold;
+}
 #process-text-frame .title-bar input[type="text"] {
-    padding: 4px 8px;
+    padding: 8px;
     border: none;
     border-radius: 3px;
     background-color: rgba(255, 255, 255, 0.2);
@@ -378,11 +396,14 @@ footer li a.active {
     position: relative;
     display: flex;
     align-items: center;
-    padding: 10px 12px;
+    padding: 15px 12px;
     background-color: #3176B8;
+    background: linear-gradient(to top, #3176B8, #4592D6);
+
     color: white;
 
 }
+
 
 .dragdrop-controls {
     position: absolute;
@@ -481,3 +502,22 @@ footer li a.active {
     display: none !important;
 }
 
+#btn-add-new {
+    background-color: #5795e6; 
+    
+    color: white; 
+    font-size: 0.9em;
+    padding: 6px 15px; 
+    
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+#btn-add-new:hover {
+    background-color: #028334; 
+    transform: translateY(-1px); 
+}
