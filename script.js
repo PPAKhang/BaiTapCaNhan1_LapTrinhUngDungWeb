@@ -4,6 +4,7 @@ $(document).ready(function() {
     $('#dropdown-display').on('click', function(e) {
         e.stopPropagation();
         $('#thumbnail-palette').toggleClass('hidden');
+        $(this).toggleClass('active');
     });
 
 
