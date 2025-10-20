@@ -205,8 +205,43 @@ footer li a.active {
     flex: 1; 
 }
 
+.title-bar {
+    background-color: #3176B8;
+    color: white;
+    padding: 8px 12px;
+    display: flex;
+    align-items: center;
+    flex-shrink: 0; 
+    gap: 5px;
+}
+
+.title-bar .frame-title {
+    font-weight: bold;
+    margin-right: 10px;
+}
+<!---->
+#process-text-frame .title-bar button, 
+#process-text-frame .title-bar input[type="text"] {
+    padding: 4px 8px;
+    border: none;
+    border-radius: 3px;
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+}
+
+#process-text-frame .title-bar button {
+    cursor: pointer;
+    transition: background-color 0.2s;
+    font-weight: bold;
+}
+
+#process-text-frame .title-bar button:hover {
+    background-color: rgba(255, 255, 255, 0.4);
+}
+
+<!---->
 #drag-drop-frame .title-bar {
-    justify-content: center;
+
     display: flex;
     align-items: center;      
     gap: 10px;               
@@ -234,4 +269,40 @@ footer li a.active {
     min-height: 150px; 
 }
 
-<!---->
+#drag-drop-frame .title-bar {
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 10px 12px;
+    background-color: #3176B8;
+    color: white;
+}
+
+#drag-drop-frame .frame-title {
+    font-weight: bold;
+    margin-left: 8px;
+    text-align: left;
+}
+
+.dragdrop-controls {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.dragdrop-controls button,
+.dragdrop-controls select {
+    background-color: white;
+    color: #3176B8;
+    border: none;
+    border-radius: 3px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.dragdrop-controls button:hover {
+    background-color: #f0f0f0;
+}
