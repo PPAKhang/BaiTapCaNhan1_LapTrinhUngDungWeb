@@ -110,7 +110,7 @@ header h1 {
 <!---->
 footer {
     height: 33px; 
-    background-color: #eee;
+    background-color: #f3e4c2;
     border-top: 1px solid #ddd;
     display: flex;
     justify-content: center; 
@@ -124,10 +124,13 @@ footer {
 }
 
 .footer-content-wrapper {
+    font-size: 1em;
+    font-family: 'Times New Roman', serif;
+    font-style: normal;
     max-width: 1280px;
     width: 100%;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     padding: 0 15px;
     box-sizing: border-box;
@@ -147,7 +150,7 @@ footer ul {
 }
 
 footer li a {
-    text-decoration: none;
+    text-decoration: underline;
     color: #333;
     padding: 5px 10px;
     font-size: 0.9em;
