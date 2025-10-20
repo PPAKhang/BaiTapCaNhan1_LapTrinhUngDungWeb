@@ -198,12 +198,6 @@ footer li a.active {
 }
 
 <!---->
-#process-text-frame {
-    flex: 1; 
-}
-#drag-drop-frame {
-    flex: 1; 
-}
 
 .title-bar {
     background-color: #3176B8;
@@ -219,6 +213,13 @@ footer li a.active {
     font-weight: bold;
     margin-right: 10px;
 }
+#process-text-frame {
+    flex: 1; 
+}
+#drag-drop-frame {
+    flex: 1; 
+}
+
 <!---->
 #process-text-frame .title-bar button, 
 #process-text-frame .title-bar input[type="text"] {
@@ -238,6 +239,17 @@ footer li a.active {
 #process-text-frame .title-bar button:hover {
     background-color: rgba(255, 255, 255, 0.4);
 }
+
+#process-text-frame #text-area-content {
+    text-align: left;    
+    font-size: 1.5em;     
+    line-height: 1.6;     
+    color: #222;
+    text-indent: 0;    
+    margin: 0;                 
+}
+
+
 
 <!---->
 #drag-drop-frame .title-bar {
