@@ -75,9 +75,8 @@ $(document).ready(function() {
                 
                 // Loại bỏ các style kéo và class
                 $('.dragging').css({
-                    zIndex: 1, // Trả về z-index ban đầu nếu cần
-                    cursor: 'grab' // Trả về con trỏ grab nếu cần
-                    // Giữ lại position: absolute và left/top để giữ vị trí
+                    zIndex: 1,
+                    cursor: 'grab'
                 }).removeClass('dragging');
             }
         });
@@ -114,11 +113,6 @@ $(document).ready(function() {
         setActiveMenu(initialActiveItem.data('menu-id'), initialActiveItem.text());
     }
 
-    // =========================================================================
-    // ĐÓNG MỞ NEWS CỦA SIDE BAR VÀ XỬ LÝ XUNG ĐỘT KÉO THẢ
-    // =========================================================================
-
-    // 1. Thiết lập trạng thái ban đầu
     $('.news-content').each(function() {
         if (!$(this).hasClass('open')) {
             $(this).addClass('closed');
@@ -126,137 +120,155 @@ $(document).ready(function() {
         }
     });
 
-    // 2. Kéo thả cho news của sidebar thay đổi vị trí
     let isDraggingSidebar = false;
     let $draggedNewsItem = null;
     let offsetNewsY;
     let initialLeft;
     let $sidebar = $('#sidebar');
-    let $placeholder = null; 
+    let $placeholder = null;
+    let startY = 0; 
+    let dragThreshold = 5; // Ngưỡng pixel để coi là đang kéo
 
-    $sidebar.on('mousedown', '.news-card', function(e) {
-        // Chỉ xử lý chuột trái và khi click vào news-header
-        if (e.button !== 0 || $(e.target).closest('.news-header').length === 0) return;
+    $sidebar.on('mousedown', '.news-header', function(e) {
+        if (e.button !== 0) return;
     
+        startY = e.clientY;
         isDraggingSidebar = true;
-        $draggedNewsItem = $(this);
+        $draggedNewsItem = $(this).closest('.news-card');
     
-        let itemOffset = $draggedNewsItem.offset();
-        offsetNewsY = e.clientY - itemOffset.top;
-        initialLeft = itemOffset.left;
-
-        // Tạo placeholder
-        $placeholder = $('<div></div>').addClass('dragging-placeholder').css({
-            'height': $draggedNewsItem.outerHeight() + 'px',
-            'marginBottom': $draggedNewsItem.css('marginBottom'),
-            'marginTop': $draggedNewsItem.css('marginTop'),
-            'border': '1px dashed #aaa',
-            'backgroundColor': '#f9f9f9',
-            'borderRadius': '4px'
-        });
-    
-        // Tạo clone để kéo
-        let $clone = $draggedNewsItem.clone().addClass('dragging-clone');
+        let cardOffset = $draggedNewsItem.offset();
+        offsetNewsY = e.pageY - cardOffset.top;
         
-        // Thay thế $draggedNewsItem bằng placeholder và xóa phần tử gốc khỏi DOM
-        $draggedNewsItem.after($placeholder);
-        $draggedNewsItem.detach(); 
-        
-        // Chèn clone vào DOM để kéo
-        $sidebar.append($clone);
-
-        $clone.css({
-            position: 'absolute',
-            zIndex: 1000,
-            width: $placeholder.outerWidth() + 'px', 
-            cursor: 'grabbing',
-            top: e.clientY - offsetNewsY + 'px',
-            left: initialLeft + 'px', 
-            opacity: 0.8,
-            // Đảm bảo clone không bị ảnh hưởng bởi CSS kéo/thả thường
-            'box-shadow': '0 4px 10px rgba(0, 0, 0, 0.2)' 
-        });
+        initialLeft = cardOffset.left;
 
         e.preventDefault(); 
-        e.stopPropagation(); 
     });
 
     $(document).on('mousemove', function(e) {
-        if (!isDraggingSidebar || !$draggedNewsItem || !$placeholder) return;
+        if (!isDraggingSidebar || !$draggedNewsItem) return;
 
-        let $clone = $sidebar.find('.dragging-clone');
+        let distance = Math.abs(e.clientY - startY);
 
-        // Di chuyển clone theo chuột
-        $clone.css({
-            'top': e.clientY - offsetNewsY + 'px',
-            'left': initialLeft + 'px'
-        });
+        if (distance > dragThreshold && !$placeholder) {
 
-        // Tính toán tâm của clone
-        let cloneCenterY = e.clientY - offsetNewsY + $clone.outerHeight() / 2;
+            $draggedNewsItem.data('is-dragging', true);
+
+            $placeholder = $('<div></div>').addClass('dragging-placeholder').css({
+                'height': $draggedNewsItem.outerHeight() + 'px',
+                'marginBottom': $draggedNewsItem.css('marginBottom'),
+                'marginTop': $draggedNewsItem.css('marginTop'),
+                'border': '1px dashed #aaa',
+                'backgroundColor': '#f9f9f9',
+                'borderRadius': '4px'
+            });
         
-        // Lặp qua tất cả các thẻ news (trừ clone) và placeholder
-        $sidebar.find('.news-card:not(.dragging-clone), .dragging-placeholder').each(function() {
-            let $current = $(this);
-            // Bỏ qua nếu là chính placeholder
-            if ($current.is($placeholder)) return true; 
+            let $clone = $draggedNewsItem.clone().addClass('dragging-clone');
+            
+            $draggedNewsItem.after($placeholder);
+            $draggedNewsItem.detach(); 
+            
+            
+            $sidebar.css('position', 'relative'); 
+            $sidebar.append($clone);
 
-            let currentOffset = $current.offset();
-            let currentTop = currentOffset.top;
-            let currentHeight = $current.outerHeight();
-            let currentCenterY = currentTop + currentHeight / 2;
+            
+            let sidebarOffset = $sidebar.offset();
+            
+            $clone.css({
+                position: 'absolute',
+                zIndex: 1000,
+                width: $placeholder.outerWidth() + 'px', 
+                cursor: 'grabbing',
+                top: (e.pageY - sidebarOffset.top - offsetNewsY) + 'px',
+                left: '0px', 
+                opacity: 0.8,
+                'box-shadow': '0 4px 10px rgba(0, 0, 0, 0.2)' 
+            });
+        }
 
-            // Nếu clone kéo lên phía trên $current
-            if (cloneCenterY < currentCenterY) {
-                // Chỉ chèn nếu placeholder đang ở vị trí sau $current
-                if ($placeholder.index() > $current.index()) {
-                    $current.before($placeholder);
-                    return false; // Dừng vòng lặp sau khi chèn
+        
+        if ($placeholder) {
+            let $clone = $sidebar.find('.dragging-clone');
+            let sidebarOffset = $sidebar.offset();
+
+            
+            $clone.css({
+                'top': (e.pageY - sidebarOffset.top - offsetNewsY) + 'px',
+                'left': '0px'
+            });
+
+            
+            let cloneTop = parseFloat($clone.css('top'));
+            let cloneCenterY = sidebarOffset.top + cloneTop + $clone.outerHeight() / 2;
+            
+            
+            $sidebar.find('.news-card:not(.dragging-clone), .dragging-placeholder').each(function() {
+                let $current = $(this);
+                
+                if ($current.is($placeholder)) return true; 
+
+                let currentOffset = $current.offset();
+                let currentTop = currentOffset.top;
+                let currentHeight = $current.outerHeight();
+                let currentCenterY = currentTop + currentHeight / 2;
+
+                
+                if (cloneCenterY < currentCenterY) {
+                    
+                    if ($placeholder.index() > $current.index()) {
+                        $current.before($placeholder);
+                        return false;
+                    }
+                } 
+                
+                else { 
+
+                    if ($placeholder.index() < $current.index()) {
+                        $current.after($placeholder);
+                        return false;
+                    }
                 }
-            } 
-            // Nếu clone kéo xuống phía dưới $current
-            else { 
-                // Chỉ chèn nếu placeholder đang ở vị trí trước $current
-                if ($placeholder.index() < $current.index()) {
-                    $current.after($placeholder);
-                    return false; // Dừng vòng lặp sau khi chèn
-                }
-            }
-        });
+            });
+        }
     });
 
     $(document).on('mouseup', function() {
-        if (!isDraggingSidebar || !$draggedNewsItem || !$placeholder) return;
-
-        // Gán data để báo hiệu rằng phần tử này vừa được di chuyển
-        $draggedNewsItem.data('just-moved', true); 
+        if (!isDraggingSidebar) return;
 
         isDraggingSidebar = false;
-    
-        let $clone = $sidebar.find('.dragging-clone');
-    
-        // Chèn phần tử gốc ($draggedNewsItem) vào vị trí của placeholder
-        $placeholder.replaceWith($draggedNewsItem);
-        $clone.remove(); // Xóa clone
+
+        if ($placeholder && $draggedNewsItem) {
+            let $clone = $sidebar.find('.dragging-clone');
+        
+            $placeholder.replaceWith($draggedNewsItem);
+            $clone.remove();
+
+            setTimeout(function() {
+                if ($draggedNewsItem) {
+                    $draggedNewsItem.removeData('is-dragging');
+                }
+            }, 50);
+        } else {
+            if ($draggedNewsItem) {
+                $draggedNewsItem.removeData('is-dragging');
+            }
+        }
 
         // Reset biến
         $draggedNewsItem = null;
         $placeholder = null;
     });
 
-    // 3. Xử lý sự kiện đóng/mở (Sử dụng delegation)
-    $('#sidebar').on('click', '.news-header', function(e) {
+    $('#sidebar').on('mouseup', '.news-header', function(e) {
+        // Chỉ xử lý chuột trái
+        if (e.button !== 0) return;
 
         const $newsCard = $(this).closest('.news-card');
 
-        // KIỂM TRA: Nếu thẻ news vừa được di chuyển, ngăn chặn sự kiện click lần này
-        if ($newsCard.data('just-moved')) {
-            $newsCard.removeData('just-moved'); // Reset trạng thái
-            e.stopImmediatePropagation(); // Ngăn chặn sự kiện này ngay lập tức
+        if ($newsCard.data('is-dragging')) {
             return;
         }
 
-        // LOGIC ĐÓNG/MỞ
         const $newsContent = $newsCard.find('.news-content');
     
         if ($newsCard.hasClass('closed')) {
