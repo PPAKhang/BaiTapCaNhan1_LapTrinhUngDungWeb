@@ -272,11 +272,26 @@ footer li a.active {
     position: absolute;
 }
 
-.news-card.dragging-placeholder {
-
-    visibility: hidden; 
-    opacity: 0; 
+.dragging-placeholder {
+   
+    border: 1px dashed #999; 
+    background-color: #e0e0e0;
+    opacity: 0.6;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    box-sizing: border-box;
 }
+
+.news-card.dragging-clone {
+    cursor: grabbing !important;
+    position: absolute !important; 
+        left: auto; 
+        top: auto;
+        z-index: 1000 !important; 
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); 
+        transform: rotate(0deg) !important; 
+        opacity: 0.8; 
+    }
 
 <!---->
 #main-content {
