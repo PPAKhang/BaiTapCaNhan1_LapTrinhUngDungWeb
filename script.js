@@ -1,5 +1,10 @@
 $(document).ready(function() {
     
+    // Biến cho việc kéo thumbnail
+    let isDraggingThumb = false;
+    let $draggedThumb = null;
+    let thumbOffsetX, thumbOffsetY;
+    
     //tính năng cho drag&drop
     $('#dropdown-display').on('click', function(e) {
         e.stopPropagation();
@@ -14,7 +19,13 @@ $(document).ready(function() {
         }
     });
 
-    $('.drag-item-thumb').on('click', function(e) {
+    // Click vào thumbnail - chỉ xử lý khi không kéo
+    $('#thumbnail-palette').on('click', '.drag-item-thumb', function(e) {
+        if ($(this).data('was-dragging')) {
+            $(this).removeData('was-dragging');
+            return;
+        }
+        
         e.stopPropagation(); 
         const imgSrc = $(this).attr('src');
 
@@ -27,6 +38,107 @@ $(document).ready(function() {
         enableDrag(newImg);
     });
 
+    // Xử lý kéo thumbnail từ palette
+    $('#thumbnail-palette').on('mousedown', '.drag-item-thumb', function(e) {
+        if (e.button !== 0) return; // Chỉ chuột trái
+
+        const $thumb = $(this);
+        isDraggingThumb = true;
+        const imgSrc = $thumb.attr('src');
+
+        // Tạo clone để kéo
+        $draggedThumb = $('<img src="' + imgSrc + '" class="dragging-thumb-clone">');
+        $('body').append($draggedThumb);
+
+        thumbOffsetX = e.offsetX;
+        thumbOffsetY = e.offsetY;
+
+        $draggedThumb.css({
+            position: 'fixed',
+            left: (e.pageX - thumbOffsetX) + 'px',
+            top: (e.pageY - thumbOffsetY) + 'px',
+            width: '50px',
+            height: '50px',
+            zIndex: 10000,
+            opacity: 0.8,
+            cursor: 'grabbing',
+            pointerEvents: 'none',
+            boxShadow: '0 4px 10px rgba(0, 0, 0, 0.3)',
+            borderRadius: '4px'
+        });
+
+        e.preventDefault();
+    });
+
+    $(document).on('mousemove', function(e) {
+        if (isDraggingThumb && $draggedThumb) {
+            $draggedThumb.css({
+                left: (e.pageX - thumbOffsetX) + 'px',
+                top: (e.pageY - thumbOffsetY) + 'px'
+            });
+        }
+    });
+
+    $(document).on('mouseup', function(e) {
+        if (isDraggingThumb && $draggedThumb) {
+            // Đánh dấu đã kéo để tránh trigger click event
+            const $thumbs = $('.drag-item-thumb');
+            $thumbs.data('was-dragging', true);
+            
+            // Kiểm tra xem thả vào #image-area không
+            const $imageArea = $('#image-area');
+            const areaOffset = $imageArea.offset();
+            const areaWidth = $imageArea.outerWidth();
+            const areaHeight = $imageArea.outerHeight();
+
+            const mouseX = e.pageX;
+            const mouseY = e.pageY;
+
+            // Kiểm tra nếu chuột nằm trong vùng image-area
+            if (mouseX >= areaOffset.left && 
+                mouseX <= areaOffset.left + areaWidth &&
+                mouseY >= areaOffset.top && 
+                mouseY <= areaOffset.top + areaHeight) {
+                
+                // Tạo hình ảnh mới trong image-area
+                const imgSrc = $draggedThumb.attr('src');
+                const newImg = $('<img src="' + imgSrc + '" class="drag-item">');
+                
+                // Tính vị trí thả
+                const relativeX = mouseX - areaOffset.left - thumbOffsetX;
+                const relativeY = mouseY - areaOffset.top - thumbOffsetY;
+
+                newImg.css({
+                    position: 'absolute',
+                    left: relativeX + 'px',
+                    top: relativeY + 'px',
+                    width: '50px',
+                    height: '50px',
+                    cursor: 'grab'
+                });
+
+                $imageArea.append(newImg);
+                enableDrag(newImg);
+
+                // Cập nhật selected image
+                $('#selected-image').attr('src', imgSrc);
+            }
+
+            // Xóa clone
+            $draggedThumb.remove();
+            $draggedThumb = null;
+            isDraggingThumb = false;
+
+            // Đóng palette
+            $('#thumbnail-palette').addClass('hidden');
+            
+            // Clear flag sau một chút
+            setTimeout(function() {
+                $thumbs.removeData('was-dragging');
+            }, 10);
+        }
+    });
+
 
     function enableDrag($img) {
         let isDragging = false;
@@ -36,10 +148,12 @@ $(document).ready(function() {
             if (e.button !== 0) return; 
 
             isDragging = true;
-            offsetX = e.offsetX;
-            offsetY = e.offsetY;
             
-  
+            // Lấy vị trí click tương đối với hình ảnh
+            const imgOffset = $(this).offset();
+            offsetX = e.pageX - imgOffset.left;
+            offsetY = e.pageY - imgOffset.top;
+            
             $(this).css({
                 position: 'absolute',
                 zIndex: 9999,
@@ -67,7 +181,6 @@ $(document).ready(function() {
             if (isDragging) {
                 isDragging = false;
                 
-                // Loại bỏ các style kéo và class
                 $('.dragging').css({
                     zIndex: 1,
                     cursor: 'grab'
@@ -297,102 +410,4 @@ $(document).ready(function() {
         addNewImageFromThumb();
     });
 
-    //xử lý kéo thả drag& drop
-    let isDraggingThumb = false;
-    let $draggedThumb = null;
-    let thumbOffsetX, thumbOffsetY;
-
-    $('.drag-item-thumb').on('click', function(e) {
-        e.stopPropagation(); 
-        const imgSrc = $(this).attr('src');
-
-        $('#selected-image').attr('src', imgSrc);
-        $('#thumbnail-palette').addClass('hidden');
-
-        const newImg = $('<img src="' + imgSrc + '" class="drag-item">');
-        $('#image-area').append(newImg);
-
-        enableDrag(newImg);
-    });
-
-    $('#thumbnail-palette').on('mousedown', '.drag-item-thumb', function(e) {
-        if (e.button !== 0) return; 
-
-        isDraggingThumb = true;
-        const imgSrc = $(this).attr('src');
-
-        $draggedThumb = $('<img src="' + imgSrc + '" class="dragging-thumb-clone">');
-        $('body').append($draggedThumb);
-
-        thumbOffsetX = e.offsetX;
-        thumbOffsetY = e.offsetY;
-
-        $draggedThumb.css({
-            position: 'fixed',
-            left: (e.pageX - thumbOffsetX) + 'px',
-            top: (e.pageY - thumbOffsetY) + 'px',
-            width: '50px',
-            height: '50px',
-            zIndex: 10000,
-            opacity: 0.8,
-            cursor: 'grabbing',
-            pointerEvents: 'none',
-            boxShadow: '0 4px 10px rgba(0, 0, 0, 0.3)',
-            borderRadius: '4px'
-        });
-
-        e.preventDefault();
-    });
-
-    $(document).on('mousemove', function(e) {
-        if (isDraggingThumb && $draggedThumb) {
-            $draggedThumb.css({
-                left: (e.pageX - thumbOffsetX) + 'px',
-                top: (e.pageY - thumbOffsetY) + 'px'
-            });
-        }
-    });
-
-    $(document).on('mouseup', function(e) {
-        if (isDraggingThumb && $draggedThumb) {
-            const $imageArea = $('#image-area');
-            const areaOffset = $imageArea.offset();
-            const areaWidth = $imageArea.outerWidth();
-            const areaHeight = $imageArea.outerHeight();
-
-            const mouseX = e.pageX;
-            const mouseY = e.pageY;
-
-            if (mouseX >= areaOffset.left && 
-                mouseX <= areaOffset.left + areaWidth &&
-                mouseY >= areaOffset.top && 
-                mouseY <= areaOffset.top + areaHeight) {
-                
-                const imgSrc = $draggedThumb.attr('src');
-                const newImg = $('<img src="' + imgSrc + '" class="drag-item">');
-                const relativeX = mouseX - areaOffset.left - thumbOffsetX;
-                const relativeY = mouseY - areaOffset.top - thumbOffsetY;
-
-                newImg.css({
-                    position: 'absolute',
-                    left: relativeX + 'px',
-                    top: relativeY + 'px',
-                    width: '50px',
-                    height: '50px',
-                    cursor: 'grab'
-                });
-
-                $imageArea.append(newImg);
-                enableDrag(newImg);
-
-                $('#selected-image').attr('src', imgSrc);
-            }
-
-            $draggedThumb.remove();
-            $draggedThumb = null;
-            isDraggingThumb = false;
-
-            $('#thumbnail-palette').addClass('hidden');
-        }
-    });
 });

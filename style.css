@@ -514,6 +514,11 @@ footer li a.active {
     display: none !important;
 }
 
+#image-area {
+    position: relative;
+    min-height: 200px;
+}
+
 #btn-add-new {
     background-color: #5795e6; 
     
@@ -533,10 +538,6 @@ footer li a.active {
     background-color: #028334; 
     transform: translateY(-1px); 
 }
-<!---->
-.hidden {
-    display: none !important;
-}
 
 .dragging-thumb-clone {
     width: 50px;
@@ -544,11 +545,6 @@ footer li a.active {
     object-fit: cover;
     border: 2px solid #31B868;
     border-radius: 4px;
-}
-
-#image-area {
-    position: relative;
-    min-height: 200px;
 }
 
 .drag-item {
@@ -559,3 +555,15 @@ footer li a.active {
     border-radius: 4px;
     transition: transform 0.1s;
 }
+
+.drag-item:hover {
+    transform: scale(1.05);
+}
+
+.drag-item.dragging {
+    cursor: grabbing !important;
+    opacity: 0.8;
+}
+<!---->
+
+
