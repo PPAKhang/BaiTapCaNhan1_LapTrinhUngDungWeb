@@ -1,0 +1,22 @@
+Điểm tự đánh giá: 3.875 điểm
+
+1.	Xây dựng bố cục tổng quát gồm Header, Nav, Main, Side và Footer theo thông số kích thước và vị trí yêu cầu.
+     Tổng thể trang web phải được canh giữa trình duyệt theo chiều ngang: 100%
+2.	Định dạng phần Header bao gồm cả dữ liệu: 100%
+3.	Định dạng phần Nav bao gồm cả dữ liệu: 100%
+4.	Định dạng phần Footer bao gồm cả dữ liệu: 100%
+5.	Định dạng phần Side bao gồm cả dữ liệu: 100%
+6.	Định dạng phần Process Text (có đủ phần điều khiển cách highlight) bao gồm cả dữ liệu: 0%
+7.	Định dạng phần Drag & Drop bao gồm cả dữ liệu: 50%
+8.	Cho phép đóng mở (thu gọn) của NEWS: 100%
+9.	Cho phép thay đổi thứ tự các NEWS. Nếu không có kéo thả thì chỉ đạt mức yêu cầu cơ bản:100%
+10.	Xử lý được SampleText tương ứng với điều khiển cách highlight:0%
+11.	Xử lý highlight cho chuỗi text:0%
+12.	Xử lý delete cho chuỗi text:0%
+13.	Xử lý reset cho chuỗi text:0%
+14.	Xử lý thêm item theo lựa chọn (item mới thêm nằm cuối cùng):50%
+15.	Xử lý kéo thả item có kết thúc là vào vị trí đảm bảo hàng cột (chưa cần đúng vị trí chọn):0%
+16.	Xử lý tạo chỗ trống khi kéo item vào vị trí có hiệu ứng animation:0%
+17.	Xử lý thả item về vị trí chọn (có hiệu ứng animation):0%
+18.	Có highlight vị trí item sẽ được thả vào:0%
+19.	Đáp ứng responsive với điểm ngắt ở độ phân giải 576px:0%
