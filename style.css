@@ -405,26 +405,21 @@ footer li a.active {
 
 <!---->
 #drag-drop-frame .title-bar {
-    position: relative;
     display: flex;
     align-items: center;
+    justify-content: space-between; 
     padding: 15px 12px;
-    background-color: #3176B8;
     background: linear-gradient(to top, #3176B8, #4592D6);
-
     color: white;
-
 }
 
 
 .dragdrop-controls {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
     display: flex;
+    justify-content: center; 
+    flex-grow: 1;
     align-items: center;
     gap: 10px;
-    max-width: 80%; 
 }
 
 
