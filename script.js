@@ -276,7 +276,7 @@ $(document).ready(function() {
     function addNewImageFromThumb() {
         const defaultThumb = $('#thumbnail-palette .drag-item-thumb').first();
         if (defaultThumb.length === 0) {
-            console.error("Lỗi: Không tìm thấy ảnh thumbnail mặc định để thêm.");
+            console.error("Lỗi: Không tìm thấy ảnh.");
             return;
         }
 
@@ -297,4 +297,102 @@ $(document).ready(function() {
         addNewImageFromThumb();
     });
 
+    //xử lý kéo thả drag& drop
+    let isDraggingThumb = false;
+    let $draggedThumb = null;
+    let thumbOffsetX, thumbOffsetY;
+
+    $('.drag-item-thumb').on('click', function(e) {
+        e.stopPropagation(); 
+        const imgSrc = $(this).attr('src');
+
+        $('#selected-image').attr('src', imgSrc);
+        $('#thumbnail-palette').addClass('hidden');
+
+        const newImg = $('<img src="' + imgSrc + '" class="drag-item">');
+        $('#image-area').append(newImg);
+
+        enableDrag(newImg);
+    });
+
+    $('#thumbnail-palette').on('mousedown', '.drag-item-thumb', function(e) {
+        if (e.button !== 0) return; 
+
+        isDraggingThumb = true;
+        const imgSrc = $(this).attr('src');
+
+        $draggedThumb = $('<img src="' + imgSrc + '" class="dragging-thumb-clone">');
+        $('body').append($draggedThumb);
+
+        thumbOffsetX = e.offsetX;
+        thumbOffsetY = e.offsetY;
+
+        $draggedThumb.css({
+            position: 'fixed',
+            left: (e.pageX - thumbOffsetX) + 'px',
+            top: (e.pageY - thumbOffsetY) + 'px',
+            width: '50px',
+            height: '50px',
+            zIndex: 10000,
+            opacity: 0.8,
+            cursor: 'grabbing',
+            pointerEvents: 'none',
+            boxShadow: '0 4px 10px rgba(0, 0, 0, 0.3)',
+            borderRadius: '4px'
+        });
+
+        e.preventDefault();
+    });
+
+    $(document).on('mousemove', function(e) {
+        if (isDraggingThumb && $draggedThumb) {
+            $draggedThumb.css({
+                left: (e.pageX - thumbOffsetX) + 'px',
+                top: (e.pageY - thumbOffsetY) + 'px'
+            });
+        }
+    });
+
+    $(document).on('mouseup', function(e) {
+        if (isDraggingThumb && $draggedThumb) {
+            const $imageArea = $('#image-area');
+            const areaOffset = $imageArea.offset();
+            const areaWidth = $imageArea.outerWidth();
+            const areaHeight = $imageArea.outerHeight();
+
+            const mouseX = e.pageX;
+            const mouseY = e.pageY;
+
+            if (mouseX >= areaOffset.left && 
+                mouseX <= areaOffset.left + areaWidth &&
+                mouseY >= areaOffset.top && 
+                mouseY <= areaOffset.top + areaHeight) {
+                
+                const imgSrc = $draggedThumb.attr('src');
+                const newImg = $('<img src="' + imgSrc + '" class="drag-item">');
+                const relativeX = mouseX - areaOffset.left - thumbOffsetX;
+                const relativeY = mouseY - areaOffset.top - thumbOffsetY;
+
+                newImg.css({
+                    position: 'absolute',
+                    left: relativeX + 'px',
+                    top: relativeY + 'px',
+                    width: '50px',
+                    height: '50px',
+                    cursor: 'grab'
+                });
+
+                $imageArea.append(newImg);
+                enableDrag(newImg);
+
+                $('#selected-image').attr('src', imgSrc);
+            }
+
+            $draggedThumb.remove();
+            $draggedThumb = null;
+            isDraggingThumb = false;
+
+            $('#thumbnail-palette').addClass('hidden');
+        }
+    });
 });

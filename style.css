@@ -533,3 +533,29 @@ footer li a.active {
     background-color: #028334; 
     transform: translateY(-1px); 
 }
+<!---->
+.hidden {
+    display: none !important;
+}
+
+.dragging-thumb-clone {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border: 2px solid #31B868;
+    border-radius: 4px;
+}
+
+#image-area {
+    position: relative;
+    min-height: 200px;
+}
+
+.drag-item {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    cursor: grab;
+    border-radius: 4px;
+    transition: transform 0.1s;
+}
